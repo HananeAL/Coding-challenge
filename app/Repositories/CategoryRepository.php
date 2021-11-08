@@ -19,9 +19,14 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $this->category->all();
     }
 
-    public function save(array $data)
+    public function save($data)
     {
         return $this->category->create($data);
+    }
+
+    public function deleteById($id)
+    {
+        return $this->category->where('id', $id)->delete($id);
     }
 
 }

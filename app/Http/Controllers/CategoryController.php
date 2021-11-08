@@ -50,6 +50,22 @@ class CategoryController extends Controller
         return response()->json($result, $result['status']);
     }
 
+    public function destroy(Request $request)
+    {
+        $id = $request->route('category');
+
+        $result = ['status' => 200];
+        try {
+            $result['data'] = $this->categoryService->delete($id);
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage(),
+            ];
+        }
+        return response()->json($result, $result['status']);
+    }
+
     /**
      * Display the specified resource.
      *
@@ -80,17 +96,6 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Category $category)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Category $category)
     {
         //
     }
