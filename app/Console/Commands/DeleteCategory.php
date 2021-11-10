@@ -3,7 +3,6 @@
 namespace App\Console\Commands;
 
 use App\Services\CategoryService;
-use Exception;
 use Illuminate\Console\Command;
 
 class DeleteCategory extends Command
@@ -39,16 +38,13 @@ class DeleteCategory extends Command
      */
     public function handle(CategoryService $categoryService)
     {
-        $id = $this->ask('What is the category id ?');
-        try {
-            $category = $categoryService->delete($id);
-            if ($category == 0) {
-                $this->comment('Category does not exist');
-            } else {
-                $this->comment('Category deleted successfully');
-            }
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
+        $id = $this->ask('What is the category id you will delete?');
+
+        $category = $categoryService->delete($id);
+        if ($category == 0) {
+            $this->comment('Category does not exist');
+        } else {
+            $this->comment('Category deleted successfully');
         }
 
     }

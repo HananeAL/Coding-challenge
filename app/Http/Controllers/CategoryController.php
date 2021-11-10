@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Services\CategoryService;
-use Exception;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoryController extends ApiController
 {
 
     protected $categoryService;
@@ -19,84 +17,21 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $result = ['status' => 200];
-        try {
-            $result['data'] = $this->categoryService->get();
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage(),
-            ];
-        }
-        return response()->json($result, $result['status']);
+        $data = $this->categoryService->get();
+        return $this->successResponse(200, $data);
     }
 
     public function store(Request $request)
     {
-        $data = $request->only([
-            'name',
-            'parent_id',
-        ]);
-
-        $result = ['status' => 200];
-        try {
-            $result['data'] = $this->categoryService->create($data);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage(),
-            ];
-        }
-        return response()->json($result, $result['status']);
+        $data = $this->categoryService->create($request->all());
+        return $this->successResponse(200, $data);
     }
 
     public function destroy(Request $request)
     {
         $id = $request->route('category');
-
-        $result = ['status' => 200];
-        try {
-            $result['data'] = $this->categoryService->delete($id);
-        } catch (Exception $e) {
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage(),
-            ];
-        }
-        return response()->json($result, $result['status']);
+        $data = $this->categoryService->delete($id);
+        return $this->successResponse(200, $data);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Category $category)
-    {
-        //
-    }
 }

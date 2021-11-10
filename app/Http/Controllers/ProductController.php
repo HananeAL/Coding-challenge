@@ -3,18 +3,53 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\ProductService;
+use Exception;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+class ProductController extends ApiController
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    protected $productService;
+
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
     public function index()
     {
-        //
+        $data = $this->productService->get();
+        return $this->successResponse(200, $data);
+        // // $result = ['status' => 200];
+        // try {
+        //     $data = $this->productService->get();
+        //     return $this->showAll($data);
+        // } catch (Exception $e) {
+        //     // $result = [
+        //     //     'status' => 500,
+        //     //     'error' => $e->getMessage(),
+        //     // ];
+        //     $this->errorResponse(500, $e->getMessage());
+
+        // }
+        // return response()->json($result, $result['status']);
+    }
+
+    public function store(Request $request)
+    {
+
+        // $data['image'] = $this->productService->handleImageUpload($request->file('image'));
+
+        $result = ['status' => 200];
+        try {
+            $result['data'] = $this->productService->create($request->all());
+        } catch (Exception $e) {
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage(),
+            ];
+        }
+        return response()->json($result, $result['status']);
     }
 
     /**
@@ -23,17 +58,6 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
     {
         //
     }

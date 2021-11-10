@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Services\CategoryService;
-use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Validation\ValidationException;
 
 class CreateCategory extends Command
 {
@@ -40,11 +40,14 @@ class CreateCategory extends Command
     {
         $input['name'] = $this->ask('What is the category name ?');
         $input['parent_id'] = $this->ask('What is the category parent ?');
+
         try {
             $categoryService->create($input);
             $this->comment('Category added successfully');
-        } catch (Exception $e) {
-            $this->error($e->getMessage());
+        } catch (ValidationException $e) {
+            foreach ($e->errors() as $error) {
+                $this->error($error[0]);
+            }
         }
     }
 }
