@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-// Route::resource('product', ProductController::class, ['only' => ['index', 'store', 'destroy']]);
+Route::resource('product', ProductController::class, ['only' => ['index', 'store', 'destroy']]);
 
 Route::resource('category', CategoryController::class, ['only' => ['index', 'store', 'destroy']]);
