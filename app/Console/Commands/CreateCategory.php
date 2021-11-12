@@ -38,16 +38,24 @@ class CreateCategory extends Command
      */
     public function handle(CategoryService $categoryService)
     {
-        $input['name'] = $this->ask('What is the category name ?');
-        $input['parent_id'] = $this->ask('What is the category parent ?');
-
         try {
-            $categoryService->create($input);
+            $categoryService->create($this->input());
             $this->comment('Category added successfully');
         } catch (ValidationException $e) {
             foreach ($e->errors() as $error) {
                 $this->error($error[0]);
             }
         }
+    }
+
+    /**
+     *  Asking The User For Input.
+     *
+     */
+    private function input()
+    {
+        $input['name'] = $this->ask('What is the category name ?');
+        $input['parent_id'] = $this->ask('What is the category parent ?');
+        return $input;
     }
 }
