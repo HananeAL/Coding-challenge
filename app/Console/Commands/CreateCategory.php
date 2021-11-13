@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\CommandLog;
 use App\Services\CategoryService;
 use Illuminate\Console\Command;
 use Illuminate\Validation\ValidationException;
 
-class CreateCategory extends Command
+class CreateCategory extends CommandLog
 {
     /**
      * The name and signature of the console command.
@@ -42,9 +43,7 @@ class CreateCategory extends Command
             $categoryService->create($this->input());
             $this->comment('Category added successfully');
         } catch (ValidationException $e) {
-            foreach ($e->errors() as $error) {
-                $this->error($error[0]);
-            }
+            $this->logErrors('error(s) creating Category :', $e->errors());
         }
     }
 

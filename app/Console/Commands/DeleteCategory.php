@@ -38,14 +38,21 @@ class DeleteCategory extends Command
      */
     public function handle(CategoryService $categoryService)
     {
-        $id = $this->ask('What is the category id you will delete?');
-
-        $category = $categoryService->delete($id);
+        $category = $categoryService->delete($this->input());
         if ($category == 0) {
             $this->comment('Category does not exist');
         } else {
             $this->comment('Category deleted successfully');
         }
+    }
 
+    /**
+     *  Asking The User For Input.
+     *
+     */
+    private function input()
+    {
+        $id = $this->ask('What is the category id you will delete?');
+        return $id;
     }
 }
