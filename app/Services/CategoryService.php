@@ -17,6 +17,11 @@ class CategoryService
         $this->categoryValidator = $categoryValidator;
     }
 
+    public function getAll()
+    {
+        return $this->categoryRepository->getAll();
+    }
+
     public function get(array $condition = [])
     {
         return $this->categoryRepository->get($condition);

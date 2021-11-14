@@ -14,6 +14,11 @@ class CategoryRepository implements RepositoryInterface
         $this->category = $category;
     }
 
+    public function getAll()
+    {
+        return $this->category->get();
+    }
+
     public function get(array $conditions)
     {
         return $this->category->where($conditions)->first();

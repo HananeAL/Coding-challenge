@@ -17,7 +17,7 @@ class CategoryController extends ApiController
 
     public function index()
     {
-        $data = $this->categoryService->get();
+        $data = $this->categoryService->getAll();
         return $this->successResponse(200, $data);
     }
 
