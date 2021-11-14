@@ -34,6 +34,10 @@ class ProductController extends ApiController
         $data['image'] = ImageFile::makeImage($img);
 
         $data = $this->productService->create($data);
+
+        $category = (array) $request->get('categories');
+        $data->categories()->sync($category);
+
         return $this->successResponse(200, $data);
     }
 
