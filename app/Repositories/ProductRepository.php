@@ -2,21 +2,24 @@
 
 namespace App\Repositories;
 
+use App\Models\Category;
 use App\Models\Product;
 
-class ProductRepository implements RepositoryInterface
+class ProductRepository
 {
 
     protected $product;
+    protected $per_page = 3;
 
     public function __construct(Product $product)
     {
         $this->product = $product;
     }
 
-    public function getAll()
+    public function getProductsByCategory(Category $category)
     {
-        return $this->product->all();
+        $products = $category->products();
+        return $products->filter()->paginate($this->per_page);
     }
 
     public function save($data)
