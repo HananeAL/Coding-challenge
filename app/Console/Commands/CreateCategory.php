@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\CommandLog;
 use App\Services\CategoryService;
-use Illuminate\Console\Command;
 use Illuminate\Validation\ValidationException;
 
 class CreateCategory extends CommandLog
@@ -43,7 +42,7 @@ class CreateCategory extends CommandLog
             $categoryService->create($this->input());
             $this->comment('Category added successfully');
         } catch (ValidationException $e) {
-            $this->logErrors('error(s) creating Category :', $e->errors());
+            $this->logErrors('Error(s) creating Category :', $e->errors());
         }
     }
 
@@ -54,7 +53,7 @@ class CreateCategory extends CommandLog
     private function input()
     {
         $input['name'] = $this->ask('What is the category name ?');
-        $input['parent_id'] = $this->ask('What is the category parent ?');
+        $input['parent_id'] = $this->ask('What is the category parent (optional) ?');
         return $input;
     }
 }
