@@ -14,12 +14,12 @@ class CategoryRepository implements RepositoryInterface
         $this->category = $category;
     }
 
-    public function getAll()
+    public function get(array $conditions)
     {
-        return $this->category->all();
+        return $this->category->where($conditions)->first();
     }
 
-    public function save($data)
+    public function save(array $data)
     {
         return $this->category->create($data);
     }
