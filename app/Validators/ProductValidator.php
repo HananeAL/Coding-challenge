@@ -19,6 +19,7 @@ class ProductValidator
             'description' => 'required|max:1000|string',
             'price' => 'required|numeric',
             'image' => 'required|base64file|base64image|base64max:1024',
+            'categories' => 'nullable|exists:categories,id|array',
         ];
     }
 }

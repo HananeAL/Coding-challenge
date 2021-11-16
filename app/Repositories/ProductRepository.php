@@ -16,6 +16,11 @@ class ProductRepository
         $this->product = $product;
     }
 
+    public function getAll()
+    {
+        return $this->product->filter()->paginate($this->per_page);
+    }
+
     public function getProductsByCategory(Category $category)
     {
         $products = $category->products();

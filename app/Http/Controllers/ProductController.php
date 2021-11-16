@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 class ProductController extends ApiController
 {
     protected $productService;
-    protected $per_page = 3;
 
     public function __construct(ProductService $productService)
     {
@@ -20,7 +19,13 @@ class ProductController extends ApiController
     public function index(Request $request)
     {
         $category = $request->query('category');
-        $products = $this->productService->getProductsByCategory($category);
+
+        if (empty($category)) {
+            $products = $this->productService->getAll();
+        } else {
+            $products = $this->productService->getProductsByCategory($category);
+        }
+
         if ($products->isEmpty()) {
             return ApiResponser::successResponse(200, 'Product(s) not found');
         }
@@ -30,15 +35,12 @@ class ProductController extends ApiController
     public function store(Request $request)
     {
         $data = $request->all();
+
         $img = $request->file('image');
         $data['image'] = ImageFile::makeImage($img);
 
         $data = $this->productService->create($data);
-
-        $category = (array) $request->get('categories');
-        $data->categories()->sync($category);
-
-        return $this->successResponse(200, $data);
+        return $data['categories'];
     }
 
     public function destroy(Request $request)

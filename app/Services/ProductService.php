@@ -12,24 +12,28 @@ class ProductService
     protected $productRepository;
     protected $productValidator;
     protected $categoryService;
+    protected $categoryProductService;
 
     public function __construct(
         ProductRepository $productRepository,
         ProductValidator $productValidator,
-        CategoryService $categoryService) {
+        CategoryService $categoryService,
+        CategoryProductService $categoryProductService) {
 
         $this->productRepository = $productRepository;
         $this->productValidator = $productValidator;
         $this->categoryService = $categoryService;
+        $this->categoryProductService = $categoryProductService;
 
+    }
+
+    public function getAll()
+    {
+        return $this->productRepository->getAll();
     }
 
     public function getProductsByCategory(String $categoryName = null)
     {
-        if ($categoryName == null) {
-            return ApiResponser::errorResponse(404, 'Parameter category name doesn\'t exist');
-        }
-
         $catName = ['name' => $categoryName];
         $category = $this->categoryService->get($catName);
         if (!$category) {
@@ -41,7 +45,12 @@ class ProductService
     public function create(array $data)
     {
         $this->productValidator->validate($data);
-        return $this->productRepository->save($data);
+        $product = $this->productRepository->save($data);
+
+        $categories = $data['categories'];
+        $this->categoryProductService->attachCategories($product, $categories);
+
+        return $product;
     }
 
     public function delete($id)
