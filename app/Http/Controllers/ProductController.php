@@ -39,8 +39,8 @@ class ProductController extends ApiController
         $img = $request->file('image');
         $data['image'] = ImageFile::makeImage($img);
 
-        $data = $this->productService->create($data);
-        return $data['categories'];
+        $product = $this->productService->create($data);
+        return $this->successResponse(200, $product);
     }
 
     public function destroy(Request $request)

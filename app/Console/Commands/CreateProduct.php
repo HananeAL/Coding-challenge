@@ -71,7 +71,7 @@ class CreateProduct extends CommandLog
     {
         $categoriesIds = $this->ask('Product categories split using commas (optionals)');
         // split the sentence using commas and spaces
-        return preg_split('/[s,]+/', $categoriesIds);
+        return preg_split('/[s,]+/', $categoriesIds, -1, PREG_SPLIT_NO_EMPTY);
     }
 
     private function getProductImage(string $imagePath)

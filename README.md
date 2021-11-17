@@ -76,7 +76,7 @@ GET http://127.0.0.1:8000/api/product?sort=price
 GET http://127.0.0.1:8000/api/product?sort[0]=name,desc&sort[1]=price,desc
 ```
 
-### Filter by category
+### Filter products by category
 
 ```HTTP
 GET http://127.0.0.1:8000/api/product?category=category_name
@@ -100,14 +100,14 @@ DELETE http://127.0.0.1:8000/api/product/id
 
 ```BASH
 # Create category
-create:category
+php artisan create:category
 
 # Delete category
-delete:category
+php artisan delete:category
 
 # Create product
-create:product
+php artisan create:product
 
 # Delete product
-delete:product
+php artisan delete:product
 ```
